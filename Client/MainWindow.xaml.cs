@@ -14,7 +14,7 @@ namespace Client
         private ObservableCollection<TodoItem> Items { get; } = new ObservableCollection<TodoItem>();
         private TcpClient _tcp;
         private NetworkStream _stream;
-        private const string SERVER_IP = "127.0.0.1"; // change if server is remote
+        private const string SERVER_IP = "127.0.0.1"; 
         private const int SERVER_PORT = 5000;
 
         public MainWindow()
@@ -36,7 +36,7 @@ namespace Client
                 _tcp = new TcpClient();
                 await _tcp.ConnectAsync(SERVER_IP, SERVER_PORT);
                 _stream = _tcp.GetStream();
-                // request initial list
+                
                 await SendStringAsync("GET\n");
                 _ = Task.Run(() => ListenLoop());
             }
@@ -56,7 +56,7 @@ namespace Client
             }
             catch
             {
-                // ignore
+                
             }
         }
 
