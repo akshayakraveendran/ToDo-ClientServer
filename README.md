@@ -52,7 +52,7 @@ Run Multiple Clients
 In Visual Studio: Debug → Start New Instance
 OR run Client.exe twice from:Client/bin/x64/Debug/net8.0-windows/
 
-### 3. Deliverable
+## Deliverable
 
 1.Source code (Server + Client)
 2.README.md (this file)
