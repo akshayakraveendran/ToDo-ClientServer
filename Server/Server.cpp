@@ -59,7 +59,7 @@ std::string build_full_list_json() {
         if (i + 1 < g_items.size()) oss << ",";
     }
     oss << "]}";
-    oss << '\n'; // newline-terminated
+    oss << '\n'; 
     return oss.str();
 }
 
@@ -81,7 +81,7 @@ void broadcast_full_list() {
 }
 
 void handle_line_from_client(SOCKET client, const std::string& line) {
-    // protocol: GET | ADD:<desc> | TOGGLE:<id>
+    
     if (line == "GET") {
         std::string msg = build_full_list_json();
         send(client, msg.c_str(), (int)msg.size(), 0);
@@ -122,20 +122,20 @@ void handle_line_from_client(SOCKET client, const std::string& line) {
             }
         }
         catch (...) {
-            // ignore malformed
+            
         }
         return;
     }
-    // unknown -> ignore
+   
 }
 
 void client_thread(SOCKET clientSocket) {
     {
-        // Add to clients list
+        
         std::lock_guard<std::mutex> lock(g_mutex);
         g_clients.push_back(clientSocket);
     }
-    // Send initial list
+   
     std::string init = build_full_list_json();
     send(clientSocket, init.c_str(), (int)init.size(), 0);
 
@@ -144,19 +144,19 @@ void client_thread(SOCKET clientSocket) {
     std::string readbuf;
     while (true) {
         int bytes = recv(clientSocket, buf, BUF_SIZE, 0);
-        if (bytes <= 0) break; // disconnected or error
+        if (bytes <= 0) break; 
         readbuf.append(buf, buf + bytes);
         size_t pos;
         while ((pos = readbuf.find('\n')) != std::string::npos) {
             std::string line = readbuf.substr(0, pos);
-            // trim CR if present
+            
             if (!line.empty() && line.back() == '\r') line.pop_back();
             readbuf.erase(0, pos + 1);
             handle_line_from_client(clientSocket, line);
         }
     }
 
-    // cleanup
+    
     closesocket(clientSocket);
     {
         std::lock_guard<std::mutex> lock(g_mutex);
@@ -181,7 +181,7 @@ int main() {
 
     sockaddr_in service;
     service.sin_family = AF_INET;
-    service.sin_addr.s_addr = INADDR_ANY; // 0.0.0.0
+    service.sin_addr.s_addr = INADDR_ANY; 
     service.sin_port = htons(SERVER_PORT);
 
     if (bind(listenSocket, (sockaddr*)&service, sizeof(service)) == SOCKET_ERROR) {
