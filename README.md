@@ -55,6 +55,9 @@ OR run Client.exe twice from:Client/bin/x64/Debug/net8.0-windows/
 ## Deliverable
 
 1.Source code (Server + Client)
+
 2.README.md (this file)
+
 3.gitignore for clean repo
+
 4.Visual Studio solution
